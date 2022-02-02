@@ -1,34 +1,42 @@
-const main =()=>{
-    let
-    canvas= document.querySelector('canvas'),
-    conntext = canvas.getContext('2d'),
-    w = window.innerWidth,
-    h = window.innerHeight,
-    fontSize = 16,
-    columns = Math.floor(w/fontSize),
-    drops =[],
-    str = 'JavaScript Matrix Effec',
-    matrix = ()=>{
-        conntext.fillStyle = 'rgba(0,0,55,.05)';
-        conntext.fillRect(0,0,w,h);
-        conntext.fontSize = `650 ${fontSize}px`;
-        conntext.fillStyle ='#ff0';
-        for (let i = 0; i < columns; i++) {
-            let
-            j = Math.floor(Math.random()*str.length),
-            x = i*fontSize,
-            y = drops[i]*fontSize;
-            conntext.fillText(str[j],x,y);
-            y >= canvas.height && Math.random() > 0.99 
-            ? drops[i]= 0
-            : drops[i]++;
-        };
-    };
-    canvas.width = w;
-    canvas.hidden = h;
-    for (let i =0; i< columns; i++){
-        drops.push(0);
-    };
-    matrix();setInterval(matriz,15);
+//llamamos desde html
+const canvas = document.getElementById('canv');
+const ctx = canvas.getContext('2d');
 
-}; document.addEventListener('DOMContentLoaded', main)
+
+const w = canvas.width = document.body.offsetWidth;
+const h = canvas.height = document.body.offsetHeight;
+
+
+ctx.fillStyle = '#000';
+ctx.fillRect(0, 0, w, h);
+
+const cols = Math.floor(w / 20) + 1;
+const ypos = Array(cols).fill(0);
+function matrix () {
+    
+    ctx.fillStyle = '#0001';
+    ctx.fillRect(0, 0, w, h);
+  
+    
+    ctx.fillStyle = '#0f0';
+    ctx.font = '15pt monospace';
+  
+    
+    ypos.forEach((y, ind) => {
+      // generar a random character
+      const text = String.fromCharCode(Math.random() * 128);
+  
+      // x coordinate of the column, y coordinate is already given
+      const x = ind * 20;
+      // render the character at (x, y)
+      ctx.fillText(text, x, y);
+  
+      // randomly reset the end of the column if it's at least 100px high
+      if (y > 100 + Math.random() * 10000) ypos[ind] = 0;
+      
+      else ypos[ind] = y + 20;
+    });
+  }
+  
+  
+  setInterval(matrix, 50);
